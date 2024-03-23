@@ -1,5 +1,6 @@
 import { FormProvider, useForm } from "react-hook-form";
-import { Steps } from "./Stepper";
+import { Steps } from "../Stepper";
+import { schema } from './Form.schema';
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import Typography from "@mui/material/Typography";
@@ -24,8 +25,11 @@ const sourceSteps = [
   },
 ];
 
+type FormValues = z.infer<typeof schema>;
+
 export function Form() {
   const methods = useForm({
+    resolver: zodResolver(schema),
     criteriaMode: "all",
     mode: "all",
     defaultValues: {
