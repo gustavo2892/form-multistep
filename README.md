@@ -11,4 +11,6 @@ Aula assistida na plataforma da Rocketseat Plus, que tem como principal objetivo
 - Zod para validação dos dados
 - Material Ui para componentes de interface
 
+![image](https://github.com/gustavo2892/form-multistep/assets/37389658/8229bd9f-d872-4cfc-941a-cfa7f932513b)
+
 Professor dessa aula: João Bibiano
