@@ -6,26 +6,41 @@ import * as z from "zod";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import { PersonalInfo } from "./components/PersonalInfo";
+import { Address } from "./components/Address";
+import { Contact } from "./components/Contact";
 
 const sourceSteps = [
   {
     label: "Dados Pessoais",
-    Component: <p>Passo 1</p>,
+    Component: <PersonalInfo />,
+    fields: ["name", "age"],
     hasError: false,
   },
   {
     label: "Dados de Endereço",
-    Component: <p>Passo 2</p>,
+    fields: ["street", "streetNumber", "city"],
+    Component: <Address />,
     hasError: false,
   },
   {
     label: "Dados de Contato",
-    Component: <p>Passo 3</p>,
+    fields: ["mobileNumber", "telNumber"],
+    Component: <Contact />,
     hasError: false,
   },
 ];
 
 type FormValues = z.infer<typeof schema>;
+
+const getSteps = (errors: string[]) => {
+  return sourceSteps.map((step) => {
+    return {
+      ...step,
+      hasError: errors.some((error) => step.fields.includes(error)),
+    };
+  });
+};
 
 export function Form() {
   const methods = useForm({
@@ -54,10 +69,12 @@ export function Form() {
     );
   }
 
+  const steps = getSteps(Object.keys(methods.formState.errors));
+
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit((data) => console.log(data))}>
-        <Steps items={sourceSteps} />
+      <form onSubmit={methods.handleSubmit((data: FormValues) => console.log(data))}>
+        <Steps items={steps} />
       </form>
     </FormProvider>
   );
